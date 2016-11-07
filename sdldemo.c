@@ -3,16 +3,23 @@
 
 int main(int argc, char **argv) {
     int done = 0;
-
+    Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
+    flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
     SDL_Window *window = SDL_CreateWindow(
         "SDL2/OpenGL Demo", 
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
         640, 480,
-        SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-
+        flags);
+    if(window == NULL) {
+        fprintf(stderr, "Error creating SDL Window: %s\n", SDL_GetError());
+        exit(1);
+    }
     // Create an OpenGL context associated with the window.
     SDL_GLContext glcontext = SDL_GL_CreateContext(window);
+    if(glcontext == NULL) {
+        fprintf(stderr, "Error creating GL contexr: %s\n", SDL_GetError());
+    }
 
     SDL_Event event;
     // now you can make GL calls.
